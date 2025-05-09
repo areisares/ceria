@@ -239,3 +239,75 @@ body {
 .tombol-musik:hover {
   background-color: #ffd54f;
 }
+
+/* =========================== */
+/* RESPONSIVE DESIGN START    */
+/* =========================== */
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .beranda-box {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  .menu-button {
+    width: 90%;
+    font-size: 1em;
+  }
+
+  .project-info {
+    max-width: 100%;
+    font-size: 0.9em;
+    padding: 15px;
+  }
+
+  .huruf-grid,
+  .angka-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .huruf-grid button,
+  .angka-grid button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2em;
+  }
+
+  .huruf-container,
+  .container-huruf {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .huruf-kiri,
+  .huruf-kanan,
+  .output-box-kanan {
+    max-width: 100%;
+  }
+
+  .game-box {
+    max-width: 100%;
+    font-size: 1em;
+  }
+
+  .tombol-musik {
+    top: 10px;
+    right: 10px;
+    font-size: 0.9em;
+    padding: 8px 14px;
+  }
+
+  h1 {
+    font-size: 1.8em;
+  }
+
+  h2 {
+    font-size: 1.4em;
+  }
+}
