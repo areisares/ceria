@@ -2,6 +2,8 @@
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -12,7 +14,6 @@ body {
   background-size: cover;
   background-position: top center;
   background-attachment: fixed;
-  margin: 0;
   padding: 20px;
 }
 
@@ -61,7 +62,44 @@ body {
   transform: scale(1.05);
 }
 
-/* Layout huruf & angka */
+/* Tombol Musik */
+.tombol-musik {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  background-color: #fff176;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 1em;
+  font-weight: bold;
+  border: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.tombol-musik:hover {
+  background-color: #ffd54f;
+}
+
+/* Info Proyek */
+.project-info {
+  background-color: #ffffffcc;
+  padding: 20px 30px;
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  max-width: 420px;
+  margin-top: 30px;
+}
+
+.project-info ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+/* Halaman Belajar Huruf & Angka */
+.huruf-container,
 .container-huruf {
   display: flex;
   justify-content: center;
@@ -69,23 +107,34 @@ body {
   gap: 40px;
   flex-wrap: wrap;
   padding: 20px;
+  margin-top: 20px;
 }
 
+.huruf-kiri,
 .huruf-section {
   flex: 1;
+  min-width: 300px;
+  text-align: center;
 }
 
+.huruf-kanan,
 .output-box-kanan {
   flex: 1;
-  max-width: 300px;
+  min-width: 250px;
   background-color: #ffffffee;
   padding: 20px;
-  border-radius: 20px;
+  border-radius: 16px;
   text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Grid huruf & angka */
+.huruf-kanan img,
+.output-box-kanan img {
+  max-width: 150px;
+  margin-top: 10px;
+}
+
+/* Grid huruf dan angka */
 .huruf-grid,
 .angka-grid {
   display: grid;
@@ -131,9 +180,8 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   max-width: 400px;
   margin: 0 auto;
-  text-align: center;
 }
-/* Tombol pilihan dalam game (A, B, C) */
+
 #pilihan button {
   display: inline-block;
   margin: 10px;
@@ -151,7 +199,6 @@ body {
   transform: scale(1.1);
 }
 
-/* Tombol kembali khusus game */
 .back-button {
   font-size: 1.2em;
   padding: 14px 28px;
@@ -162,6 +209,7 @@ body {
   cursor: pointer;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
   transition: 0.2s;
+  margin: 20px auto;
 }
 
 .back-button:hover {
@@ -169,107 +217,32 @@ body {
   transform: scale(1.05);
 }
 
-.project-info {
-  background-color: #ffffffcc;
-  padding: 20px 30px;
-  border-radius: 18px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  max-width: 420px;
-  margin-top: 30px;
-}
-
-.project-info ul {
-  margin: 10px 0 0 0;
-  padding-left: 20px;
-}
-
-.project-info ul {
-  padding-left: 20px;
-  margin-top: 10px;
-}
-
-/* Tata Letak Belajar Huruf (update layout kanan-kiri) */
-.huruf-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 40px;
-  flex-wrap: wrap;
-  padding: 20px;
-  margin-top: 40px;
-}
-
-.huruf-kiri {
-  flex: 1;
-  min-width: 300px;
-  text-align: center;
-}
-
-.huruf-kanan {
-  flex: 1;
-  min-width: 250px;
-  background-color: #ffffffee;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.huruf-kanan img {
-  max-width: 150px;
-  margin-top: 10px;
-}
-
-.tombol-musik {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999;
-  background-color: #fff176;
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-size: 1em;
-  font-weight: bold;
-  border: none;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-  cursor: pointer;
-}
-
-.tombol-musik:hover {
-  background-color: #ffd54f;
-}
-
-/* =========================== */
-/* RESPONSIVE DESIGN START    */
-/* =========================== */
-
+/* RESPONSIVE */
 @media (max-width: 768px) {
   body {
     padding: 10px;
     font-size: 16px;
   }
 
-  .beranda-box {
-    padding: 20px;
-    max-width: 100%;
+  .huruf-container,
+  .container-huruf {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
   }
 
-  .menu-button {
-    width: 90%;
-    font-size: 1em;
-  }
-
-  .project-info {
+  .huruf-kiri,
+  .huruf-kanan,
+  .output-box-kanan {
+    flex: 1 1 45%;
     max-width: 100%;
-    font-size: 0.9em;
-    padding: 15px;
   }
 
   .huruf-grid,
   .angka-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
   }
 
   .huruf-grid button,
@@ -279,21 +252,14 @@ body {
     font-size: 1.2em;
   }
 
-  .huruf-container,
-  .container-huruf {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .huruf-kiri,
-  .huruf-kanan,
-  .output-box-kanan {
-    max-width: 100%;
-  }
-
   .game-box {
     max-width: 100%;
     font-size: 1em;
+  }
+
+  .beranda-box,
+  .project-info {
+    max-width: 100%;
   }
 
   .tombol-musik {
@@ -304,52 +270,10 @@ body {
   }
 
   h1 {
-    font-size: 1.8em;
+    font-size: 1.6em;
   }
 
   h2 {
-    font-size: 1.4em;
-  }
-}
-
-@media (max-width: 768px) {
-  .huruf-container {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .huruf-kiri,
-  .huruf-kanan {
-    flex: 1 1 45%;
-    max-width: 100%;
-  }
-
-  .huruf-kiri h1 {
-    font-size: 1.4em;
-  }
-
-  .huruf-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    justify-content: center;
-  }
-
-  .huruf-grid button {
-    width: 50px;
-    height: 50px;
-    font-size: 1.2em;
-  }
-
-  .huruf-kanan img {
-    max-width: 120px;
-  }
-
-  .output-box-kanan,
-  .huruf-kanan {
-    padding: 15px;
-    font-size: 0.95em;
+    font-size: 1.3em;
   }
 }
