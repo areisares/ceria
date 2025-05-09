@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Edukatif - CERIA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 Tebak Huruf</h1>
+    <div class="game-box">
+      <p id="timer">⏱️ Waktu: 60 detik</p>
+      <p id="skor">✅ Benar: 0 | ❌ Salah: 0</p>
+      <p id="soal">Huruf apa yang digunakan untuk kata berikut?</p>
+      <img id="gambar-soal" src="" alt="Gambar Soal" style="width:150px">
+      <div id="pilihan"></div>
+      <p id="feedback"></p>
+    </div>
+    <br>
+    <button class="back-button" onclick="window.location.href='index.html'">⬅️ Kembali ke Beranda</button>
+  </div>
+
+  <!-- Audio -->
+  <audio id="audio-benar" src="suara/benar.mp3"></audio>
+  <audio id="audio-salah" src="suara/salah.mp3"></audio>
+
+  <!-- Soal dari file eksternal -->
+  <script src="soal-huruf-final.js"></script>
+
+  <!-- Script utama game -->
+  <script>
+    let index = 0;
+    let benarCount = 0;
+    let salahCount = 0;
+    let waktu = 60;
+    let timerId;
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function loadSoal() {
+      if (waktu <= 0) return;
+      const data = soal[index];
+      document.getElementById("soal").innerText = "Huruf apa yang digunakan untuk kata berikut?";
+      document.getElementById("gambar-soal").src = "gambar/" + data.gambar;
+      document.getElementById("feedback").innerText = "";
+
+      const pilihanBox = document.getElementById("pilihan");
+      pilihanBox.innerHTML = "";
+      const acakPilihan = shuffle([...data.pilihan]);
+
+      acakPilihan.forEach(p => {
+        const btn = document.createElement("button");
+        btn.textContent = p;
+        btn.onclick = () => cekJawaban(p, btn);
+        pilihanBox.appendChild(btn);
+      });
+    }
+
+    function cekJawaban(pilihan, tombol) {
+      const benar = soal[index].jawaban;
+      const audioBenar = document.getElementById("audio-benar");
+      const audioSalah = document.getElementById("audio-salah");
+
+      if (pilihan === benar) {
+        tombol.style.backgroundColor = "#a5d6a7";
+        document.getElementById("feedback").innerText = "Benar! 🎉";
+        audioBenar.play();
+        benarCount++;
+      } else {
+        tombol.style.backgroundColor = "#ef9a9a";
+        document.getElementById("feedback").innerText = "Salah. Coba lagi 😅";
+        audioSalah.play();
+        salahCount++;
+        return;
+      }
+
+      updateSkor();
+      index = (index + 1) % soal.length;
+      setTimeout(loadSoal, 1000);
+    }
+
+    function updateSkor() {
+      document.getElementById("skor").innerText = `✅ Benar: ${benarCount} | ❌ Salah: ${salahCount}`;
+    }
+
+    function hitungWaktu() {
+      timerId = setInterval(() => {
+        waktu--;
+        document.getElementById("timer").innerText = `⏱️ Waktu: ${waktu} detik`;
+        if (waktu <= 0) {
+          clearInterval(timerId);
+          selesai();
+        }
+      }, 1000);
+    }
+
+    function selesai() {
+      document.getElementById("soal").innerText = "⏰ Waktu Habis!";
+      document.getElementById("pilihan").innerHTML = "";
+      document.getElementById("feedback").innerText = `Hasil akhir kamu:\n✅ ${benarCount} benar | ❌ ${salahCount} salah`;
+    }
+
+    window.onload = () => {
+      shuffle(soal);
+      loadSoal();
+      hitungWaktu();
+    };
+  </script>
+</body>
+</html>
+
+
+
+

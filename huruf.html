@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Belajar Huruf - CERIA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="huruf-container">
+    <!-- KIRI: Grid Huruf -->
+    <div class="huruf-kiri">
+      <h1>Belajar Huruf A–Z</h1>
+      <div class="huruf-grid">
+        <script>
+          const huruf = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+          for (let i = 0; i < huruf.length; i++) {
+            document.write(`<button onclick="tampilkanHuruf('${huruf[i]}')">${huruf[i]}</button>`);
+          }
+        </script>
+      </div>
+    </div>
+
+    <!-- KANAN: Output Gambar -->
+    <div id="output" class="huruf-kanan">
+      <p>Klik salah satu huruf di kiri</p>
+    </div>
+  </div>
+
+  <!-- Tombol kembali -->
+  <br>
+  <div style="text-align:center;">
+    <button class="back-button" onclick="window.location.href='index.html'">⬅️ Kembali ke Beranda</button>
+  </div>
+
+  <!-- Script JS -->
+  <script>
+    function tampilkanHuruf(h) {
+      let gambar = `gambar/${h}.png`;
+      document.getElementById("output").innerHTML = `
+        <h2>Huruf ${h}</h2>
+        <img src="${gambar}" alt="Gambar ${h}" style="width:150px; margin: 10px 0;"><br>
+        <p>${h} adalah untuk ...</p>
+      `;
+    }
+  </script>
+</body>
+</html>
+
+
