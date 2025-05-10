@@ -277,3 +277,132 @@ body {
     font-size: 1.3em;
   }
 }
+
+/* game */
+.game-controls {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.game-controls button {
+  background-color: #fff176;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1.1em;
+  font-family: 'Comic Neue', sans-serif;
+  border-radius: 14px;
+  margin: 0 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.game-controls button:hover {
+  background-color: #ffd54f;
+  transform: scale(1.05);
+}
+
+/* Tombol seragam */
+.btn-ceria {
+  background-color: #fff176;
+  border: none;
+  padding: 14px 26px;
+  font-size: 1.1em;
+  font-family: 'Comic Neue', sans-serif;
+  color: #333;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  margin: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-ceria:hover {
+  background-color: #ffd54f;
+  transform: scale(1.05);
+}
+
+/* Agar tombol kembali tetap di bawah */
+.footer-button {
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* Desktop view: atur agar game-box lebih besar dan terpusat */
+@media (min-width: 1024px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .game-box {
+    width: 500px;
+    margin-top: 20px;
+    padding: 25px 30px;
+    font-size: 1.1em;
+  }
+
+  #pilihan button {
+    width: 80px;
+    height: 80px;
+    font-size: 2em;
+    margin: 10px;
+  }
+
+  #gambar-soal {
+    max-width: 200px;
+    margin: 15px 0;
+  }
+
+  #timer, #skor {
+    font-size: 1.1em;
+  }
+
+  h1 {
+    font-size: 2.4em;
+    margin-bottom: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-huruf {
+    justify-content: center;
+    gap: 80px;
+    align-items: flex-start;
+    padding: 30px 60px;
+  }
+
+  .huruf-section,
+  .huruf-kiri {
+    flex: 0 0 40%;
+    text-align: center;
+  }
+
+  .output-box-kanan,
+  .huruf-kanan {
+    flex: 0 0 50%;
+    max-width: 600px;
+    padding: 30px;
+    font-size: 1.2em;
+  }
+
+  .output-box-kanan img {
+    max-width: 180px;
+  }
+
+  .angka-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+  }
+
+  .angka-grid button {
+    width: 70px;
+    height: 70px;
+    font-size: 1.4em;
+  }
+
+  h1 {
+    font-size: 2.4em;
+  }
+}

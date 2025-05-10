@@ -1,17 +1,46 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Game Edukatif - CERIA</title>
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    #popup-skor {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fffbe6;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      text-align: center;
+      z-index: 999;
+    }
+    .game-controls {
+      margin: 15px 0;
+    }
+    #game-box.hidden {
+      display: none;
+    }
+  </style>
 </head>
+
 <iframe src="musik.html" allow="autoplay" style="display:none;"></iframe>
+
 <body>
   <div class="container">
     <h1>🎮 Tebak Huruf</h1>
-    <div class="game-box">
+
+    <div class="game-controls">
+      <button onclick="mulaiGame()">▶️ Mulai</button>
+      <button onclick="pauseGame()">⏸️ Pause</button>
+    </div>
+
+    <div class="game-box hidden" id="game-box">
       <p id="timer">⏱️ Waktu: 60 detik</p>
       <p id="skor">✅ Benar: 0 | ❌ Salah: 0</p>
       <p id="soal">Huruf apa yang digunakan untuk kata berikut?</p>
@@ -19,104 +48,129 @@
       <div id="pilihan"></div>
       <p id="feedback"></p>
     </div>
-    <br>
-    <button class="back-button" onclick="window.location.href='index.html'">⬅️ Kembali ke Beranda</button>
-  </div>
 
-  <!-- Audio -->
-  <audio id="audio-benar" src="suara/benar.mp3"></audio>
-  <audio id="audio-salah" src="suara/salah.mp3"></audio>
+    <div style="margin-top: 20px;">
+      <button class="back-button" onclick="window.location.href='index.html'">⬅️ Kembali ke Beranda</button>
+    </div>
 
-  <!-- Soal dari file eksternal -->
-  <script src="soal-huruf-final.js"></script>
+    <!-- Pop-up skor akhir -->
+    <div id="popup-skor">
+      <h2>⏰ Waktu Habis!</h2>
+      <p>✅ Benar: <span id="popupBenar"></span></p>
+      <p>❌ Salah: <span id="popupSalah"></span></p>
+      <button onclick="mulaiGame()">🔁 Ulangi Permainan</button>
+    </div>
 
-  <!-- Script utama game -->
-  <script>
-    let index = 0;
-    let benarCount = 0;
-    let salahCount = 0;
-    let waktu = 60;
-    let timerId;
+    <!-- Audio -->
+    <audio id="audio-benar" src="suara/benar.mp3"></audio>
+    <audio id="audio-salah" src="suara/salah.mp3"></audio>
 
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
+    <!-- Soal dari file eksternal -->
+    <script src="soal-huruf-final.js"></script>
 
-    function loadSoal() {
-      if (waktu <= 0) return;
-      const data = soal[index];
-      document.getElementById("soal").innerText = "Huruf apa yang digunakan untuk kata berikut?";
-      document.getElementById("gambar-soal").src = "gambar/" + data.gambar;
-      document.getElementById("feedback").innerText = "";
+    <script>
+      let index = 0, benarCount = 0, salahCount = 0;
+      let waktu = 60, timerId = null, gameJalan = false;
 
-      const pilihanBox = document.getElementById("pilihan");
-      pilihanBox.innerHTML = "";
-      const acakPilihan = shuffle([...data.pilihan]);
-
-      acakPilihan.forEach(p => {
-        const btn = document.createElement("button");
-        btn.textContent = p;
-        btn.onclick = () => cekJawaban(p, btn);
-        pilihanBox.appendChild(btn);
-      });
-    }
-
-    function cekJawaban(pilihan, tombol) {
-      const benar = soal[index].jawaban;
-      const audioBenar = document.getElementById("audio-benar");
-      const audioSalah = document.getElementById("audio-salah");
-
-      if (pilihan === benar) {
-        tombol.style.backgroundColor = "#a5d6a7";
-        document.getElementById("feedback").innerText = "Benar! 🎉";
-        audioBenar.play();
-        benarCount++;
-      } else {
-        tombol.style.backgroundColor = "#ef9a9a";
-        document.getElementById("feedback").innerText = "Salah. Coba lagi 😅";
-        audioSalah.play();
-        salahCount++;
-        return;
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
       }
 
-      updateSkor();
-      index = (index + 1) % soal.length;
-      setTimeout(loadSoal, 1000);
-    }
+      function mulaiGame() {
+        document.getElementById("popup-skor").style.display = "none";
+        document.getElementById("game-box").classList.remove("hidden");
 
-    function updateSkor() {
-      document.getElementById("skor").innerText = `✅ Benar: ${benarCount} | ❌ Salah: ${salahCount}`;
-    }
+        index = 0;
+        benarCount = 0;
+        salahCount = 0;
+        waktu = 60;
+        gameJalan = true;
 
-    function hitungWaktu() {
-      timerId = setInterval(() => {
+        updateSkor();
+        document.getElementById("timer").innerText = `⏱️ Waktu: ${waktu} detik`;
+
+        shuffle(soal);
+        loadSoal();
+        if (timerId) clearInterval(timerId);
+        timerId = setInterval(hitungWaktu, 1000);
+      }
+
+      function pauseGame() {
+        gameJalan = !gameJalan;
+      }
+
+      function hitungWaktu() {
+        if (!gameJalan) return;
         waktu--;
         document.getElementById("timer").innerText = `⏱️ Waktu: ${waktu} detik`;
         if (waktu <= 0) {
           clearInterval(timerId);
           selesai();
         }
-      }, 1000);
-    }
+      }
 
-    function selesai() {
-      document.getElementById("soal").innerText = "⏰ Waktu Habis!";
-      document.getElementById("pilihan").innerHTML = "";
-      document.getElementById("feedback").innerText = `Hasil akhir kamu:\n✅ ${benarCount} benar | ❌ ${salahCount} salah`;
-    }
+      function loadSoal() {
+        if (!gameJalan) return;
+        const data = soal[index];
+        document.getElementById("soal").innerText = "Huruf apa yang digunakan untuk kata berikut?";
+        document.getElementById("gambar-soal").src = "gambar/" + data.gambar;
+        document.getElementById("feedback").innerText = "";
 
-    window.onload = () => {
-      shuffle(soal);
-      loadSoal();
-      hitungWaktu();
-    };
-  </script>
+        const pilihanBox = document.getElementById("pilihan");
+        pilihanBox.innerHTML = "";
+        const acakPilihan = shuffle([...data.pilihan]);
+
+        acakPilihan.forEach(p => {
+          const btn = document.createElement("button");
+          btn.textContent = p;
+          btn.onclick = () => cekJawaban(p, btn);
+          pilihanBox.appendChild(btn);
+        });
+      }
+
+      function cekJawaban(pilihan, tombol) {
+        if (!gameJalan) return;
+        const benar = soal[index].jawaban;
+        const audioBenar = document.getElementById("audio-benar");
+        const audioSalah = document.getElementById("audio-salah");
+
+        if (pilihan === benar) {
+          tombol.style.backgroundColor = "#a5d6a7";
+          document.getElementById("feedback").innerText = "Benar! 🎉";
+          audioBenar.play();
+          benarCount++;
+        } else {
+          tombol.style.backgroundColor = "#ef9a9a";
+          document.getElementById("feedback").innerText = "Salah. Coba lagi 😅";
+          audioSalah.play();
+          salahCount++;
+          return;
+        }
+
+        updateSkor();
+        index = (index + 1) % soal.length;
+        setTimeout(loadSoal, 1000);
+      }
+
+      function updateSkor() {
+        document.getElementById("skor").innerText = `✅ Benar: ${benarCount} | ❌ Salah: ${salahCount}`;
+      }
+
+      function selesai() {
+        gameJalan = false;
+        document.getElementById("game-box").classList.add("hidden");
+        document.getElementById("popupBenar").innerText = benarCount;
+        document.getElementById("popupSalah").innerText = salahCount;
+        document.getElementById("popup-skor").style.display = "block";
+      }
+    </script>
 </body>
 </html>
+
 
 
 
