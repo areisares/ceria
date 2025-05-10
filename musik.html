@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+</head>
+<body style="margin:0">
+  <audio id="musikLatar" autoplay loop>
+    <source src="audio/lagu-ceria.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const audio = document.getElementById("musikLatar");
+    audio.volume = 0.2; // 20% volume
+    document.addEventListener('click', () => {
+      if (audio.paused) audio.play(); // agar bisa dimulai setelah interaksi user
+    });
+  </script>
+</body>
+</html>
