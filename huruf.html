@@ -46,15 +46,6 @@
       `;
       sebutHuruf(h); // panggil suara
     }
-
-    function sebutHuruf(huruf) {
-      const suara = new SpeechSynthesisUtterance(huruf);
-      suara.lang = 'id-ID';       // atau 'en-US' kalau mau aksen Inggris
-      suara.rate = 0.7;           // kecepatan bicara
-      suara.pitch = 1.2;          // nada suara sedikit tinggi (ramah anak)
-      window.speechSynthesis.cancel(); // hentikan suara sebelumnya (jika ada)
-      window.speechSynthesis.speak(suara);
-    }
   </script>
 
 </body>
