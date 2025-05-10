@@ -7,11 +7,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<iframe src="musik.html" allow="autoplay" style="display:none;"></iframe>
 <body>
 
+  <iframe src="musik.html" allow="autoplay" style="display:none;"></iframe>
+
   <div class="huruf-container">
-    <!-- KIRI -->
     <div class="huruf-kiri">
       <h1>Belajar Angka 1 - 10</h1>
       <div class="angka-grid">
@@ -23,32 +23,43 @@
       </div>
     </div>
 
-    <!-- KANAN -->
     <div id="output" class="huruf-kanan">
       <p>Klik angka di kiri</p>
     </div>
   </div>
 
-  <br>
-  <div style="text-align:center;">
+  <div style="text-align:center; margin-top: 20px;">
     <button class="back-button" onclick="window.location.href='index.html'">⬅️ Kembali ke Beranda</button>
   </div>
 
   <script>
     function tampilkanAngka(n) {
-      let gambar = `gambar/angka${n}.png`;
-      let objek = {
+      const gambar = `gambar/${n}.png`;
+      const objek = {
         1: "apel", 2: "bola", 3: "bintang", 4: "ikan", 5: "kucing",
         6: "pensil", 7: "kurcaci", 8: "mobil", 9: "bunga", 10: "balon"
       };
+
       document.getElementById("output").innerHTML = `
         <h2>Angka ${n}</h2>
-        <img src="${gambar}" alt="Angka ${n}" style="width:150px; margin:10px 0;"><br>
+        <img src="${gambar}" alt="Gambar ${n}" style="width:150px; margin:10px 0;"><br>
         <p>Ada ${n} ${objek[n]}</p>
       `;
+
+      putarAudioAngka(n); // 🎵 putar suara
+    }
+
+    function putarAudioAngka(n) {
+      const audio = new Audio(`audio/angka/${n}.mp3`);
+      audio.volume = 1.0;
+      audio.play().catch(err => {
+        console.error("Gagal memutar suara angka:", err);
+      });
     }
   </script>
+
 </body>
 </html>
+
 
 
