@@ -7,8 +7,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<iframe src="musik.html" allow="autoplay" style="display:none;"></iframe>
 <body>
+
+  <!-- Musik latar (dari file musik.html) -->
+  <iframe src="musik.html" allow="autoplay" style="display: none;"></iframe>
 
   <div class="huruf-container">
     <!-- Kiri: Tombol huruf -->
@@ -35,7 +37,7 @@
     <button class="back-button" onclick="window.location.href='index.html'">⬅️ Kembali ke Beranda</button>
   </div>
 
-  <!-- JS -->
+  <!-- Script: Tampilkan gambar + mainkan suara huruf -->
   <script>
     function tampilkanHuruf(h) {
       const gambar = `gambar/${h}.png`;
@@ -44,12 +46,23 @@
         <img src="${gambar}" alt="Gambar ${h}" style="width: 150px; margin: 10px 0;"><br>
         <p>${h} adalah untuk ...</p>
       `;
-      sebutHuruf(h); // panggil suara
+      putarAudioHuruf(h);
+    }
+
+    function putarAudioHuruf(huruf) {
+      const audioPath = `audio/huruf/${huruf}.mp3`;
+      const audio = new Audio(audioPath);
+      audio.volume = 1.0; // volume 100%
+      console.log("Memutar suara:", audioPath);
+      audio.play().catch(err => {
+        console.error("Gagal memutar audio:", err);
+      });
     }
   </script>
 
 </body>
 </html>
+
 
 
 
